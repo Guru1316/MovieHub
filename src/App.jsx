@@ -22,6 +22,8 @@ function MovieHub() {
   });
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
 
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
   useEffect(() => {
     document.body.className = `${theme}-theme`;
     localStorage.setItem('theme', theme);
@@ -45,7 +47,7 @@ function MovieHub() {
     try {
       const { data } = await axios.get('https://api.themoviedb.org/3/genre/movie/list', {
         params: {
-          api_key: 'cbd90fd270ace23acf8c634f6f4c0290',
+          api_key: API_KEY,
           language: 'en-US',
         },
       });
@@ -60,7 +62,7 @@ function MovieHub() {
     try {
       const { data } = await axios.get('https://api.themoviedb.org/3/configuration/languages', {
         params: {
-          api_key: 'cbd90fd270ace23acf8c634f6f4c0290',
+          api_key: API_KEY,
         },
       });
       const sortedLanguages = data.sort((a, b) => a.english_name.localeCompare(b.english_name));
@@ -80,7 +82,7 @@ function MovieHub() {
 
       const { data } = await axios.get(endpoint, {
         params: {
-          api_key: 'cbd90fd270ace23acf8c634f6f4c0290',
+          api_key: API_KEY,
           language: 'en-US',
           page: pageNumber,
           query: debouncedSearch || undefined,
@@ -122,9 +124,9 @@ function MovieHub() {
   };
 
   const toggleDescription = (movieId) => {
-    setExpandedDescriptions(prev => ({
+    setExpandedDescriptions((prev) => ({
       ...prev,
-      [movieId]: !prev[movieId]
+      [movieId]: !prev[movieId],
     }));
   };
 
@@ -211,12 +213,12 @@ function MovieHub() {
                 <p className="overview">
                   {movie.overview ? (
                     <>
-                      {expandedDescriptions[movie.id] 
-                        ? movie.overview 
+                      {expandedDescriptions[movie.id]
+                        ? movie.overview
                         : `${movie.overview.substring(0, 150)}`}
                       {movie.overview.length > 150 && (
-                        <button 
-                          onClick={() => toggleDescription(movie.id)} 
+                        <button
+                          onClick={() => toggleDescription(movie.id)}
                           className="read-more"
                         >
                           {expandedDescriptions[movie.id] ? ' Show Less' : '... Read More'}
