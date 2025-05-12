@@ -260,7 +260,7 @@ function MovieHub() {
       </button>
 
       <footer className="footer">
-        <p>Powered by TMDB 🚀</p>
+        <p>Made By Guru 🚀</p>
       </footer>
     </div>
   );
